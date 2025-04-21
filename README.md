@@ -1,7 +1,7 @@
 # ⚖️ JuristiQ – Smart Legal Management Platform
 
 **JuristiQ** is a secure and modern web application designed to help advocates and law firms streamline their daily operations. Built with the MERN stack, it centralizes client data, case details, court hearings, fee tracking, and legal documents — all in one intuitive platform.
-
+ 
 ## 🚀 Features
 
 - 🏠 **Dashboard** – Real-time legal news, case summaries, and upcoming hearings  
