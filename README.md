@@ -4,7 +4,7 @@
  
 ## 🚀 Features
 
-- 🏠 **Dashboard** – Real-time legal news, case summaries, and upcoming hearings  
+- 🏠 **Dashboard** – Real-time legal news, case summaries, and upcoming hearings   
 - 👤 **Client Management** – Add and track detailed client profiles with case histories  
 - 📁 **Case Handling** – Organize cases with descriptions, milestones, and client associations  
 - 🗓 **Hearing Scheduler** – Track court dates using a calendar view with reminders  
