@@ -17,7 +17,7 @@ function Clients() {
 const fetchClients = async () => {
   setIsLoading(true);
   try {
-    const response = await axios.get("https://juristiqbackend.onrender.com/clients", { withCredentials: true });
+    const response = await axios.get("http://localhost:3000/clients", { withCredentials: true });
     console.log("Fetched Clients:", response.data);
 
     // If the response is an object, convert it into an array
@@ -43,7 +43,7 @@ const fetchClients = async () => {
     }
 
     try {
-      const response = await axios.post("https://juristiqbackend.onrender.com/createclient", newClient, {
+      const response = await axios.post("http://localhost:3000/createclient", newClient, {
         withCredentials: true})
       console.log("New Client Added:", response.data)
 

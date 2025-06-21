@@ -20,7 +20,7 @@ function LoginPage() {
     try {
 
       const response = await axios.post(
-        "https://juristiqbackend.onrender.com/login",
+        "http://localhost:3000/login",
         { email, password },
         { withCredentials: true } // To handle cookies (JWT authentication)
       );

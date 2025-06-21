@@ -17,7 +17,7 @@ const ForgetPassword = () => {
     setLoading(true);
   
     try {
-      const response = await axios.post("https://juristiqbackend.onrender.com/existing", { email, secretString });
+      const response = await axios.post("http://localhost:3000/existing", { email, secretString });
   
       console.log("API Response:", response.data); // Debugging response
       setMessage(response.data.message);
