@@ -720,3 +720,92 @@ textarea{
     max-width: 200px;
   }
 }
+/* Logo Styles for Header */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-logo {
+  height: 50px; /* Adjust based on your header height */
+  width: auto;
+  max-width: 200px; /* Prevent logo from being too wide */
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.main-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive logo sizing */
+@media (max-width: 768px) {
+  .main-logo {
+    height: 40px;
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-logo {
+    height: 35px;
+    max-width: 120px;
+  }
+}
+
+/* Footer Logo Styles */
+.footer-logo-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo-img {
+  height: 60px; /* Slightly larger in footer */
+  width: auto;
+  max-width: 250px;
+  object-fit: contain;
+  filter: brightness(0.9); /* Slightly dimmed for footer */
+}
+
+/* Header adjustments to accommodate larger logo */
+.site-header {
+  padding: 1rem 0;
+  min-height: 70px; /* Ensure enough space for logo */
+  display: flex;
+  align-items: center;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Ensure navigation and buttons align properly with larger logo */
+.main-navigation {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
