@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const app = express();
 const connectDB = require("./db"); // Import connection function
@@ -6,7 +7,6 @@ connectDB();
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const bodyParser = require("body-parser");
-require("dotenv").config();
 const jwt = require('jsonwebtoken');
 const userModel = require("./models/user");
 const clientModel = require("./models/client");
@@ -339,15 +339,17 @@ app.post("/update/:id", isLoggedIn, async (req, res) => {
 app.post("/advocate", async (req, res) => {
   const { name, email, age } = req.body;
   console.log(req.body);
+  
   if (!name || !email || !age) {
     return res.status(400).send("Name, email, and age are required.");
   }
+  
   try {
     // Generate OTP
     const generateOtp = () => Math.floor(100000 + Math.random() * 900000);
     const otp = generateOtp();
 
-    console.log("Generated OTP:", otp); // Optional: For debugging purposes
+    console.log("Generated OTP:", otp);
 
     // Configure the transporter for nodemailer
     const transporter = nodemailer.createTransport({
@@ -355,8 +357,8 @@ app.post("/advocate", async (req, res) => {
       port: 587,
       secure: false,
       auth: {
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
@@ -375,8 +377,16 @@ app.post("/advocate", async (req, res) => {
         return res.status(500).send("Error sending email");
       } else {
         console.log("Email sent:", info.response);
-        // Temporarily store OTP in a cache or database without creating user
-        await otpModel.create({ email, otp });
+        
+        // Store OTP with all required fields
+        await otpModel.create({ 
+          email, 
+          otp,
+          type: 'email',
+          // If you need userId, you might need to create a temporary user first
+          // or modify the schema to make userId optional
+        });
+        
         res.status(200).send("OTP sent successfully");
       }
     });
