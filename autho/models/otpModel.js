@@ -24,4 +24,4 @@ const otpSchema = new mongoose.Schema({
 module.exports = mongoose.model('otp', otpSchema);
 
 
-// This code defines a Mongoose schema for an OTP (One-Time Password) model.
+//This code defines a Mongoose schema for an OTP (One-Time Password) model.
