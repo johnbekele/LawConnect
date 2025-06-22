@@ -21,8 +21,8 @@ app.use(
   cors({
     origin: function (origin, callback) {
       const allowedOrigins = [
-        "https://one-famous-sculpin.ngrok-free.app","positive-liberal-treefrog.ngrok-free.app","personally-allowing-lacewing.ngrok-free.app",
-        "http://localhost:5173","https://juristi-q.vercel.app"
+        "https://lawconnect-wxr0.onrender.com","positive-liberal-treefrog.ngrok-free.app","personally-allowing-lacewing.ngrok-free.app",
+        "http://localhost:5173","https://law-connect-lilac.vercel.app"
       ];
 
       if (!origin || allowedOrigins.includes(origin)) {
