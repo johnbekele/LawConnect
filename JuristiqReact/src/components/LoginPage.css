@@ -1,177 +1,114 @@
-
-.background-decoration {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -2;
+/* === GLOBAL STYLES === */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  color: #000;
 }
 
-.decoration-circle {
-  position: absolute;
-  border-radius: 50%;
-  background-color: rgba(82, 78, 74, 0.2);
+:root {
+  --primary-bg: #fff;
+  --primary-text: #000;
+  --accent-color: #1a1a1a;
+  --light-gray: #f8f9fa;
+  --border-radius: 20px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-.decoration-circle:nth-child(1) {
-  top: 10%;
-  left: 10%;
-  width: 150px;
-  height: 150px;
-}
-
-.decoration-circle:nth-child(2) {
-  top: 40%;
-  right: 15%;
-  width: 100px;
-  height: 100px;
-}
-
-.decoration-circle:nth-child(3) {
-  bottom: 10%;
-  left: 20%;
-  width: 120px;
-  height: 120px;
-}
-
-.page-container {
-  max-height: 100vh;
-  width: 100vw;
-  /* background-color: #e5e5e5; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  padding-bottom: 0px;
-  overflow: hidden;
-}
-
+/* === LOGIN CONTAINER === */
 .login-container {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
-  max-width: 1600px; /* Increased max-width for better utilization */
+  max-width: 1600px;
   min-height: 600px;
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  background-color: var(--primary-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin: 20px auto;
   overflow: hidden;
-  padding-bottom: 0px;
 }
 
-/* Left side - Branding */
+/* === LEFT SIDE BRANDING === */
 .login-branding {
   display: none;
   width: 50%;
-  background-color: #f8f9fa;
-  position: relative;
-  border-radius: 20px 0 0 20px;
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
   overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px;
 }
 
 @media (min-width: 768px) {
   .login-branding {
     display: flex;
-    flex-direction: column;
-    padding: 48px;
   }
 }
-
-.branding-content {
-  position: relative;
-  z-index: 2;
-}
-
 
 .logo-icon img {
   width: 100px;
   height: 40px;
   border-radius: 5px;
-  object-fit:cover;
-}
-
-
-.welcome-message {
-  max-width: 500px;
+  object-fit: cover;
 }
 
 .welcome-message h2 {
-  font-size: 40px;
-  color: #000;
-  margin-bottom: 24px;
-  line-height: 1.2;
+  font-size: 36px;
+  margin-bottom: 16px;
 }
 
 .welcome-message p {
-  color: #666;
-  margin-bottom: 32px;
-  line-height: 1.6;
   font-size: 16px;
+  color: #555;
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 .cta-button {
-  background-color: #1a1a1a;
-  color: white;
+  background-color: var(--accent-color);
+  color: #fff;
   border: none;
   padding: 12px 24px;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: transform 0.2s, background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .cta-button:hover {
   background-color: #000;
+  transform: scale(1.02);
 }
 
 .cta-button.clicked {
   transform: scale(0.95);
 }
 
-.arrow-icon {
-  font-size: 20px;
-  transition: transform 0.2s;
-}
-
-.cta-button:hover .arrow-icon {
-  transform: translateX(4px);
-}
-
+/* === WAVE IMAGE === */
 .wave-container {
   position: relative;
   width: 100%;
-  height: 250px; /* Adjust height based on your wave */ 
+  height: 250px;
   display: flex;
-  justify-content: center;
   align-items: flex-end;
-}
-.wave-decoration {
-  position: absolute;
-  /* bottom: 0;
-  left: 0; */
-  width: 140%;
-  height: 260px; /* Adjust height for the semi-oval effect */
-  background: url('https://www.hindustantimes.com/ht-img/img/2023/03/23/550x309/The-NJDG-is-a-part-of-the-ongoing-e-courts-integra_1679587800334.jpg') no-repeat center bottom;
-  background-size: cover;
-  border-radius: 100% 100% 0 0; /* Creates the semi-oval effect */
-  overflow: hidden;
-  opacity: 0.9;
-  
+  justify-content: center;
 }
 
 
-/* Right side - Login form */
+
+/* === RIGHT SIDE FORM === */
 .login-form-container {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 48px 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (min-width: 768px) {
@@ -182,114 +119,97 @@
 
 .login-form-wrapper {
   width: 100%;
-  max-width: 500px; /* Increased width for better layout */
+  max-width: 500px;
 }
 
 .login-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-@media (min-width: 768px) {
-  .login-header {
-    text-align: left;
-  }
+  text-align: left;
+  margin-bottom: 32px;
 }
 
 .login-header h2 {
   font-size: 32px;
-  color: #000;
-  margin: 0 0 8px 0;
+  margin-bottom: 8px;
 }
 
 .login-header p {
-  color: #666;
-  margin: 0;
   font-size: 16px;
+  color: #666;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.password-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-label {
+.form-group label {
   font-size: 14px;
-  color: #000;
   font-weight: 500;
 }
 
 input {
   height: 50px;
   padding: 0 16px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
   font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
   transition: border-color 0.2s;
 }
 
 input:focus {
+  border-color: var(--accent-color);
   outline: none;
-  border-color: #000;
 }
 
 .forgot-password {
   font-size: 14px;
-  color: #000;
+  color: var(--accent-color);
   text-decoration: none;
-  transition: color 0.2s;
+  align-self: flex-end;
 }
 
 .forgot-password:hover {
-  color: #666;
-  cursor: pointer;
   text-decoration: underline;
+}
+
+/* === MESSAGES === */
+.error-message,
+.success-message {
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  text-align: center;
 }
 
 .error-message {
   background-color: #fee2e2;
   color: #dc2626;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  text-align: center;
 }
 
 .success-message {
   background-color: #dcfce7;
   color: #16a34a;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  text-align: center;
+}
+
+/* === BUTTONS === */
+.login-button,
+.create-button {
+  height: 50px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .login-button {
-  height: 50px;
-  background-color: #000;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
+  background-color: var(--accent-color);
+  color: #fff;
 }
 
 .login-button:hover {
-  background-color: #1a1a1a;
+  background-color: #000;
 }
 
 .login-button:active {
@@ -297,14 +217,25 @@ input:focus {
 }
 
 .login-button.loading {
-  background-color: #666;
+  background-color: #888;
   cursor: not-allowed;
 }
 
+.create-button {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+}
+
+.create-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* === DIVIDER === */
 .divider {
   position: relative;
   text-align: center;
-  margin: 16px 0;
+  margin: 24px 0;
 }
 
 .divider::before {
@@ -319,210 +250,31 @@ input:focus {
 
 .divider span {
   position: relative;
-  background-color: white;
+  background-color: #fff;
   padding: 0 16px;
-  color: #666;
+  color: #999;
   font-size: 14px;
 }
 
-.create-button {
-  height: 50px;
-  background-color: black;
-  color: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
-}
-
-.create-button:hover {
-  background-color: #1a1a1a;
-}
-
-.create-button:active {
-  transform: scale(0.98);
-}
-
-
-
-/* Media Queries */
-/* Media Queries */
-
-@media (max-width: 270px) {
-  
+/* === RESPONSIVE OPTIMIZATION === */
+@media (max-width: 768px) {
   .login-container {
     flex-direction: column;
-    padding: 0.5rem;
-    overflow-y: auto;
-    
+    padding: 16px;
   }
-  .login-branding {
-    width: 100%;
-    text-align: center;
-  }
-  .login-form-container {
-    padding: 1rem;
-    margin-top: 1rem;
-   
-  }
-  .login-form-wrapper{
-    margin-right: 20px;
-    
-  }
-  .login-header h2 {
-    font-size: 1.2rem;
-  }
-  input {
-    font-size: 0.8rem;
-    padding: 0.6rem;
-  }
-  .login-button {
-    font-size: 0.8rem;
-    padding: 0.6rem;
-  }
-}
 
-@media (min-width: 271px) and (max-width: 380px) {
-  .login-container {
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    overflow-y: auto;
-  }
   .login-branding {
-    width: 100%;
-    text-align: center;
+    display: none;
   }
-  .login-form-wrapper{
-    margin-right: 20px;
-  }
-  .login-form-container {
-    padding: 1.2rem;
-    margin-top: 1rem;
-  }
-  .login-header h2 {
-    font-size: 1.3rem;
-  }
-  input {
-    font-size: 0.85rem;
-    padding: 0.7rem;
-  }
-  .login-button {
-    font-size: 0.85rem;
-    padding: 0.7rem;
-  }
-}
 
-@media (min-width: 381px) and (max-width: 520px) {
-  .login-container {
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    overflow-y: auto;
-  }
-  .login-branding {
-    width: 100%;
-    text-align: center;
-  }
-  .login-form-wrapper{
-    margin-right: 20px;
-  }
-  .login-form-container {
-    padding: 1.5rem;
-    margin-top: 1rem;
-  }
   .login-header h2 {
-    font-size: 1.4rem;
+    font-size: 24px;
   }
-  input {
-    font-size: 0.9rem;
-    padding: 0.8rem;
-  }
-  /* .login-button {
-    font-size: 0.9rem;
-    padding: 0.8rem;
-  } */
-}
 
-@media (min-width: 521px) and (max-width: 640px) {
-  .login-container {
-    flex-direction: column;
-    padding: 1.8rem;
-    overflow-y: auto;
-  }
-  .login-branding {
-    width: 100%;
-    text-align: center;
-  }
-  .login-form-container {
-    padding: 1.8rem;
-    margin-top: 1rem;
-  }
-  .login-form-wrapper{
-    margin-right: 20px;
-  }
-  .login-header h2 {
-    font-size: 1.5rem;
-  }
-  input {
-    font-size: 0.95rem;
-    padding: 0.9rem;
-  }
-  .login-button {
-    font-size: 0.95rem;
-    padding: 0.9rem;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 860px) {
-  .login-container {
-    padding: 2rem;
-    overflow-y: auto;
-  }
-  .login-branding {
-    width: 100%;
-    text-align: center;
-  }
-  .login-form-container {
-    padding: 2rem;
-    margin-top: 1rem;
-  }
-  .login-header h2 {
-    font-size: 1.6rem;
-  }
-  input {
-    font-size: 1rem;
-    padding: 1rem;
-  }
-  .login-button {
-    font-size: 1rem;
-    padding: 1rem;
-  }
-}
-
-@media (min-width: 861px) and (max-width: 1200px) {
-  .login-container {
-    padding: 2.2rem;
-    overflow-y: auto;
-  }
-  .login-branding {
-    width: 100%;
-    text-align: center;
-  }
-  .login-form-container {
-    padding: 2.2rem;
-    margin-top: 1rem;
-  }
-  .login-header h2 {
-    font-size: 1.7rem;
-  }
-  input {
-    font-size: 1.1rem;
-    padding: 1.1rem;
-  }
-  .login-button {
-    font-size: 1.1rem;
-    padding: 1.1rem;
+  input,
+  .login-button,
+  .create-button {
+    font-size: 14px;
+    padding: 0.75rem;
   }
 }

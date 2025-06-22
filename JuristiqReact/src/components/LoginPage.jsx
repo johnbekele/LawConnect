@@ -70,7 +70,7 @@ function LoginPage() {
              
 
             <div className="welcome-message">
-              <h2>Welcome to JuristiQ</h2>
+              <h2>Welcome to Law Connect</h2>
               <p>Effortless legal case management—secure, organized, and built for advocates.</p>
               <button className="cta-button" onClick={handleComerRighTov}>
                 Log In Now <span className="arrow-icon">→</span>

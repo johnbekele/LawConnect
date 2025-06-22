@@ -78,8 +78,22 @@ function LandingPage() {
           outline: none;
         }
 
-      
+        .background-decoration {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: -2;
+        }
 
+        .decoration-circle {
+          position: absolute;
+          border-radius: 50%;
+          background-color: rgba(82, 78, 74, 0.1);
+          animation: float 6s ease-in-out infinite;
+        }
 
         .decoration-circle:nth-child(1) {
           top: 10%;
