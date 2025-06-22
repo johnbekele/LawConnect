@@ -16,7 +16,7 @@ function MyCases() {
 
   const fetchCases = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/getcases", {
+      const response = await axios.get("https://lawconnect-wxr0.onrender.com/getcases", {
         withCredentials: true, // Ensures cookies are sent
       });
   
@@ -58,10 +58,10 @@ function MyCases() {
     try {
       if (editingCase) {
         // Update Case (PUT request)
-        await axios.put(`http://localhost:3000/updatecase/${editingCase.case_ref_no}`, newCase)
+        await axios.put(`https://lawconnect-wxr0.onrender.com/updatecase/${editingCase.case_ref_no}`, newCase)
       } else {
         // Add New Case (POST request)
-        await axios.post("http://localhost:3000/createcase", newCase ,{withCredentials: true})
+        await axios.post("https://lawconnect-wxr0.onrender.com/createcase", newCase ,{withCredentials: true})
       }
 
       // Reset the form and fetch updated data
@@ -79,7 +79,7 @@ function MyCases() {
     if (!window.confirm("Are you sure you want to delete this case?")) return
 
     try {
-      await axios.delete(`http://localhost:3000/deletecase/${case_ref_no}`)
+      await axios.delete(`https://lawconnect-wxr0.onrender.com/deletecase/${case_ref_no}`)
       fetchCases() // Refresh table after delete
     } catch (error) {
       console.error("Error deleting case:", error)

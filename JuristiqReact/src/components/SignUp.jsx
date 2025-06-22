@@ -19,7 +19,7 @@ function SignUp() {
   // Send OTP to user's email
   const handleEmailSubmit = async () => {
     try {
-      await axios.post("http://localhost:3000/advocate", {
+      await axios.post("https://lawconnect-wxr0.onrender.com/advocate", {
         name,
         email,
         age,
@@ -36,7 +36,7 @@ function SignUp() {
   // Verify OTP
   const handleOtpSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/verifyotp", { name,email,age, otp })
+      const response = await axios.post("https://lawconnect-wxr0.onrender.com/verifyotp", { name,email,age, otp })
       if (response.status === 200) {
         setOtpVerified(true)
         alert("OTP Verified! You can now create a password.")
@@ -57,7 +57,7 @@ function SignUp() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/register", {
+      const response = await axios.post("https://lawconnect-wxr0.onrender.com/register", {
         name,
         email,
         password,
