@@ -21,7 +21,7 @@ app.use(
   cors({
     origin: function (origin, callback) {
       const allowedOrigins = [
-        "https://lawconnect-wxr0.onrender.com","positive-liberal-treefrog.ngrok-free.app","personally-allowing-lacewing.ngrok-free.app",
+        "https://lawconnect-wxr0.onrender.com","http://localhost:3000",
         "http://localhost:5173","https://law-connect-lilac.vercel.app"
       ];
 
@@ -31,7 +31,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // Allow cookies/auth headers
+    credentials: true, 
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
@@ -54,24 +54,29 @@ app.use(cookieParser());
 // })
 
 const isLoggedIn = (req, res, next) => {
-  console.log("🔍 Checking authentication...");
-  console.log("🔍 Cookies:", req.cookies);
-  console.log("🔍 Headers:", req.headers);
+  // Extract token from cookie or Authorization header
+  const token =
+    req.cookies.token ||
+    (req.headers.authorization && req.headers.authorization.split(" ")[1]);
 
-  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+  console.log("🔍 Checking authentication...");
+  console.log("🔍 Token received:", token);
 
   if (!token) {
-    console.log("❌ No valid token found in cookies");
     return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
 
   try {
+    // Verify token using your secret key
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log("✅ Token verified:", decoded);
+
+    // Attach user info to request object
     req.user = decoded;
-    console.log("✅ Decoded User:", req.user) // Debugging
     next();
   } catch (error) {
-    console.log("❌ Token verification failed:", error.message);
+    console.error("❌ Token verification error:", error.name, error.message);
     return res.status(403).json({ error: "Forbidden: Invalid token" });
   }
 };
@@ -111,42 +116,38 @@ const isLoggedIn = (req, res, next) => {
 //     res.sendStatus(500); // Internal server error
 //   }
 // });
+// In your backend login route
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Find user by email
     const user = await userModel.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
+    
+    if (!user || !await bcrypt.compare(password, user.password)) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Compare hashed password
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({ message: "Incorrect password" });
-    }
-
-    // Generate JWT token
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    console.log("Generated token:", token);
-
-    // Set cookie with token
+    // Set cookie with proper options
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Set to true for production
-      sameSite: "none" // For cross-origin requests
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 3600000 // 1 hour
     });
 
-    res.json({ message: "Login successful", token });
+    // ALSO send token in response for localStorage
+    res.json({ 
+      message: "Login successful", 
+      token: token // Frontend can store this
+    });
   } catch (error) {
-    console.error("Login error:", error.message); // Log the error message
-    res.sendStatus(500);
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
