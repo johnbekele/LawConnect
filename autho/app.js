@@ -1,27 +1,30 @@
 require("dotenv").config();
 const express = require('express');
+const cors = require("cors");
+const cookieParser = require('cookie-parser');
+const connectDB = require("./config/db");
+
+// Import routes
+const authRoutes = require('./routes/authRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
+const caseRoutes = require('./routes/caseRoutes.js');
+const clientRoutes = require('./routes/clientRoutes.js');
+const feeRoutes = require('./routes/feeRoutes.js');
+
 const app = express();
-const connectDB = require("./db"); // Import connection function
+
 // Connect to MongoDB
 connectDB();
-const nodemailer = require('nodemailer');
-const bcrypt = require('bcrypt');
-const bodyParser = require("body-parser");
-const jwt = require('jsonwebtoken');
-const userModel = require("./models/user");
-const clientModel = require("./models/client");
-const FeesModel = require("./models/fees");
-const otpModel = require("./models/otpModel");
 
-const moment = require('moment');
-const twilio = require('twilio');
+// Trust proxy
 app.set("trust proxy", 1);
-const cors = require("cors");
+
+// CORS configuration
 app.use(
   cors({
     origin: function (origin, callback) {
       const allowedOrigins = [
-        "https://lawconnect-wxr0.onrender.com","http://localhost:3000",
+        "https://lawconnect-wxr0.onrender.com","positive-liberal-treefrog.ngrok-free.app","personally-allowing-lacewing.ngrok-free.app",
         "http://localhost:5173","https://law-connect-lilac.vercel.app"
       ];
 
@@ -31,17 +34,13 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, 
+    credentials: true, // Allow cookies/auth headers
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
-const postModel = require("./models/post");
-const casesModel = require("./models/cases");
-const cookieParser = require('cookie-parser');
-const path = require('path');
-
-app.use(express.json({ limit: "50mb" })); // Adjust size as needed
+// Middleware
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 
@@ -54,29 +53,24 @@ app.use(cookieParser());
 // })
 
 const isLoggedIn = (req, res, next) => {
-  // Extract token from cookie or Authorization header
-  const token =
-    req.cookies.token ||
-    (req.headers.authorization && req.headers.authorization.split(" ")[1]);
-
   console.log("🔍 Checking authentication...");
-  console.log("🔍 Token received:", token);
+  console.log("🔍 Cookies:", req.cookies);
+  console.log("🔍 Headers:", req.headers);
+
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
   if (!token) {
+    console.log("❌ No valid token found in cookies");
     return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
 
   try {
-    // Verify token using your secret key
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    console.log("✅ Token verified:", decoded);
-
-    // Attach user info to request object
     req.user = decoded;
+    console.log("✅ Decoded User:", req.user) // Debugging
     next();
   } catch (error) {
-    console.error("❌ Token verification error:", error.name, error.message);
+    console.log("❌ Token verification failed:", error.message);
     return res.status(403).json({ error: "Forbidden: Invalid token" });
   }
 };
@@ -116,38 +110,42 @@ const isLoggedIn = (req, res, next) => {
 //     res.sendStatus(500); // Internal server error
 //   }
 // });
-// In your backend login route
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Find user by email
     const user = await userModel.findOne({ email });
-    
-    if (!user || !await bcrypt.compare(password, user.password)) {
-      return res.status(401).json({ message: "Invalid credentials" });
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
     }
 
+    // Compare hashed password
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    // Generate JWT token
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    // Set cookie with proper options
+    console.log("Generated token:", token);
+
+    // Set cookie with token
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 3600000 // 1 hour
+      secure: process.env.NODE_ENV === "production", // Set to true for production
+      sameSite: "none" // For cross-origin requests
     });
 
-    // ALSO send token in response for localStorage
-    res.json({ 
-      message: "Login successful", 
-      token: token // Frontend can store this
-    });
+    res.json({ message: "Login successful", token });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Login error:", error.message); // Log the error message
+    res.sendStatus(500);
   }
 });
 
