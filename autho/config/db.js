@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 configDotenv(); // Load environment variables from .env file
 
 
-const MONGO_URI = process.env.MONGO_URI ;
+const MONGO_URI = (typeof process !== "undefined" && process.env && process.env.MONGO_URI) ? process.env.MONGO_URI : "";
 
 const connectDB = async () => {
     try {
