@@ -1,5 +1,9 @@
-const mongoose = require("mongoose");
-require("../db"); // Import the connection file
+import mongoose from 'mongoose';
+
+// It's generally recommended to establish your database connection
+// in a central file (e.g., your main server file like app.js or server.js)
+// and not within each model file for ES Modules.
+// Assuming your database connection is handled elsewhere before this model is used.
 
 const userSchema = mongoose.Schema({
   name: { type: String, required: true },
@@ -16,4 +20,5 @@ const userSchema = mongoose.Schema({
   fees: [{ type: mongoose.Schema.Types.ObjectId, ref: "fees" }],
 });
 
-module.exports = mongoose.model("User", userSchema);
+// Export the Mongoose model as a default export
+export default mongoose.model('User', userSchema);

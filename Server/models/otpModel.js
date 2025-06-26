@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const otpSchema = new mongoose.Schema({
   email: {
@@ -21,7 +21,5 @@ const otpSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('otp', otpSchema);
-
-
-//This code defines a Mongoose schema for an OTP (One-Time Password) model.
+// Export the Mongoose model as a default export
+export default mongoose.model('otp', otpSchema);

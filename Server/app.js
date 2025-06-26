@@ -1,15 +1,15 @@
-require("dotenv").config();
-const express = require('express');
-const cors = require("cors");
-const cookieParser = require('cookie-parser');
-const connectDB = require("./config/db");
+import 'dotenv/config.js'; // For ES Modules, typically use this for dotenv config
+import express from 'express';
+import cors from "cors";
+import cookieParser from 'cookie-parser';
+import connectDB from "./config/db.js"; 
 
-// Import routes
-const authRoutes = require('./routes/authRoutes.js');
-const userRoutes = require('./routes/userRoutes.js');
-const caseRoutes = require('./routes/caseRoutes.js');
-const clientRoutes = require('./routes/clientRoutes.js');
-const feeRoutes = require('./routes/feeRoutes.js');
+// Import routes as ES Modules
+import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import caseRoutes from './routes/caseRoutes.js';
+import clientRoutes from './routes/clientRoutes.js';
+import feeRoutes from './routes/feeRoutes.js';
 
 const app = express();
 
@@ -25,8 +25,7 @@ app.use(
     origin: function (origin, callback) {
       const allowedOrigins = [
         "https://lawconnect-wxr0.onrender.com",
-        "positive-liberal-treefrog.ngrok-free.app",
-        "personally-allowing-lacewing.ngrok-free.app",
+       "http://localhost:3000",
         "http://localhost:5173",
         "https://law-connect-lilac.vercel.app"
       ];
@@ -54,11 +53,5 @@ app.use('/api/cases', caseRoutes);
 app.use('/api/clients', clientRoutes);
 app.use('/api/fees', feeRoutes);
 
-// Legacy routes (for backward compatibility)
-app.use('/', authRoutes);
-app.use('/', userRoutes);
-app.use('/', caseRoutes);
-app.use('/', clientRoutes);
-app.use('/', feeRoutes);
 
-module.exports = app;
+export default app;

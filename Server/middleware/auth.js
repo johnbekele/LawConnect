@@ -1,11 +1,12 @@
-const jwt = require('jsonwebtoken');
+import jwt from "jsonwebtoken";
 
 const isLoggedIn = (req, res, next) => {
   console.log("🔍 Checking authentication...");
-  console.log("🔍 Cookies:", req.cookies);
-  console.log("🔍 Headers:", req.headers);
+  console.log("🔍 Cookies:", req.cookies); // This will now show the 'token' cookie if set correctly
+  console.log("🔍 Headers:", req.headers); // For debugging purposes
 
-  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+  const token = req.cookies.token; // Prioritize cookie for authentication
+  // const token = req.cookies.token || req.headers.authorization?.split(" ")[1]; // Removed header fallback as cookie is primary
 
   if (!token) {
     console.log("❌ No valid token found in cookies");
@@ -23,4 +24,4 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-module.exports = { isLoggedIn };
+export default isLoggedIn;

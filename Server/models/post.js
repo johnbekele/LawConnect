@@ -1,21 +1,27 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-// mongoose.connect("mongodb+srv://swayamsam2005:sLDNreRmb5R0KjQH@cluster0.ipxl289.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-require("../db"); // Import the connection file
-const postSchema= mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId,
- ref: "user"
-},
- date: {
+// As with other models, it's generally recommended to establish your database connection
+// in a central file (e.g., your main server file like app.js or server.js)
+// and not within each model file for ES Modules.
+// Assuming your database connection is handled elsewhere before this model is used.
+
+const postSchema = mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user"
+  },
+  date: {
     type: Date,
     default: Date.now
-}, 
-content: String,
-likes: [
+  },
+  content: String,
+  likes: [
     {
-        type: mongoose.Schema.Types.ObjectId, ref:"user"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user"
     }
-]
-
+  ]
 });
-module.exports= mongoose.model('post', postSchema);
+
+// Export the Mongoose model as a default export
+export default mongoose.model('post', postSchema);
