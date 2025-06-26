@@ -1,63 +1,66 @@
-
-import { useState, useEffect } from "react"
-import axios from "axios"
-import SideBar from "./sideBar"
-import "./Clients.css"
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import SideBar from './sideBar';
+import './Clients.css';
+import { API_URL } from '../config/EnvConfig.js';
 
 function Clients() {
-  const [showForm, setShowForm] = useState(false)
-  const [clients, setClients] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-    //const API = import.meta.env.REACT_APP_API_URL // if using Vite
+  const [showForm, setShowForm] = useState(false);
+  const [clients, setClients] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  //const API = import.meta.env.REACT_APP_API_URL // if using Vite
 
-    useEffect(() => {
-      fetchClients();
-    }, []);
-    
-const fetchClients = async () => {
-  setIsLoading(true);
-  try {
-    const response = await axios.get("https://lawconnect-wxr0.onrender.com/clients", { withCredentials: true });
-    console.log("Fetched Clients:", response.data);
+  useEffect(() => {
+    fetchClients();
+  }, []);
 
-    // If the response is an object, convert it into an array
-    const clientsData = Array.isArray(response.data) ? response.data : [response.data];
-    setClients(clientsData); // Directly update the state with the data
+  const fetchClients = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${API_URL}/clients`, {
+        withCredentials: true,
+      });
+      console.log('Fetched Clients:', response.data);
 
-  } catch (error) {
-    console.error("Error fetching clients:", error);
-    setClients([]); // Clear out clients in case of error
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-    
-  const handleFormSubmit = async (e) => {
-    e.preventDefault()
-    const formData = new FormData(e.target)
-    const newClient = {
-      client_name: formData.get("clientName"),
-      phone: formData.get("phone"),
-      case_ref_no: formData.get("case_ref_no"),
+      // If the response is an object, convert it into an array
+      const clientsData = Array.isArray(response.data)
+        ? response.data
+        : [response.data];
+      setClients(clientsData); // Directly update the state with the data
+    } catch (error) {
+      console.error('Error fetching clients:', error);
+      setClients([]); // Clear out clients in case of error
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const newClient = {
+      client_name: formData.get('clientName'),
+      phone: formData.get('phone'),
+      case_ref_no: formData.get('case_ref_no'),
+    };
 
     try {
-      const response = await axios.post("https://lawconnect-wxr0.onrender.com/createclient", newClient, {
-        withCredentials: true})
-      console.log("New Client Added:", response.data)
+      const response = await axios.post(`${API_URL}/createclient`, newClient, {
+        withCredentials: true,
+      });
+      console.log('New Client Added:', response.data);
 
       // Update state to reflect the new client
-      setClients((prevClients) => [...prevClients, response.data])
+      setClients((prevClients) => [...prevClients, response.data]);
 
       // Hide the form after submission
-      setShowForm(false)
-      e.target.reset() // Clear form fields
+      setShowForm(false);
+      e.target.reset(); // Clear form fields
     } catch (error) {
-      console.error("Error adding client:", error)
-      alert("Error adding client. Try again.")
+      console.error('Error adding client:', error);
+      alert('Error adding client. Try again.');
     }
-  }
+  };
 
   return (
     <div className="app-container">
@@ -78,7 +81,11 @@ const fetchClients = async () => {
           <div className="clients-grid">
             {Array.isArray(clients) && clients.length > 0 ? (
               clients.map((client, index) => (
-                <div key={index} className="client-card" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div
+                  key={index}
+                  className="client-card"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
                   <div className="card-header">
                     <div className="avatar-container">
                       <svg
@@ -94,7 +101,9 @@ const fetchClients = async () => {
                         <circle cx="12" cy="7" r="4"></circle>
                       </svg>
                     </div>
-                    <span className="case-badge">Case #{client.case_ref_no}</span>
+                    <span className="case-badge">
+                      Case #{client.case_ref_no}
+                    </span>
                   </div>
                   <div className="card-content">
                     <h2>{client.client_name}</h2>
@@ -132,8 +141,7 @@ const fetchClients = async () => {
                         <span>Case Ref: {client.case_ref_no}</span>
                       </div>
                     </div>
-                    <div className="card-footer">
-                    </div>
+                    <div className="card-footer"></div>
                   </div>
                 </div>
               ))
@@ -155,7 +163,10 @@ const fetchClients = async () => {
                 </div>
                 <h3>No clients yet</h3>
                 <p>Add your first client to get started</p>
-                <button onClick={() => setShowForm(true)} className="add-first-client-btn">
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="add-first-client-btn"
+                >
                   Add Client
                 </button>
               </div>
@@ -189,7 +200,10 @@ const fetchClients = async () => {
           <div className="modal">
             <div className="modal-header">
               <h2>Add New Client</h2>
-              <button onClick={() => setShowForm(false)} className="close-button">
+              <button
+                onClick={() => setShowForm(false)}
+                className="close-button"
+              >
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -207,12 +221,24 @@ const fetchClients = async () => {
             <form onSubmit={handleFormSubmit} className="client-form">
               <div className="form-group">
                 <label htmlFor="clientName">Client Name</label>
-                <input type="text" id="clientName" name="clientName" required placeholder="Enter client name" />
+                <input
+                  type="text"
+                  id="clientName"
+                  name="clientName"
+                  required
+                  placeholder="Enter client name"
+                />
               </div>
 
               <div className="form-group">
                 <label htmlFor="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" required placeholder="Enter phone number" />
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  placeholder="Enter phone number"
+                />
               </div>
 
               <div className="form-group">
@@ -237,13 +263,7 @@ const fetchClients = async () => {
         </>
       )}
     </div>
-  )
+  );
 }
 
-export default Clients
-
-
-
-
-
-
+export default Clients;

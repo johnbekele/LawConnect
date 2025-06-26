@@ -1,17 +1,18 @@
-import SideBar from "./sideBar"
-import { useState, useEffect } from "react"
-import axios from "axios"
-import "./sideBar.css"
-import "./Mycases.css"
+import SideBar from './sideBar';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import './sideBar.css';
+import './Mycases.css';
+import { API_URL } from '../config/EnvConfig.js';
 
 function MyCases() {
-  const [showForm, setShowForm] = useState(false)
-  const [cases, setCases] = useState([])
-  const [editingCase, setEditingCase] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [showForm, setShowForm] = useState(false);
+  const [cases, setCases] = useState([]);
+  const [editingCase, setEditingCase] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Get token from localStorage
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem('token');
 
   // Configure axios defaults
   useEffect(() => {
@@ -24,41 +25,41 @@ function MyCases() {
 
   useEffect(() => {
     if (token) {
-      fetchCases()
+      fetchCases();
     } else {
-      console.error("No token found. Please login again.");
+      console.error('No token found. Please login again.');
       // Redirect to login or show error message
     }
-  }, [token])
+  }, [token]);
 
   const fetchCases = async () => {
     if (!token) {
-      console.error("No token available");
+      console.error('No token available');
       return;
     }
 
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/getcases", {
+      const response = await axios.get(`${API_URL}/getcases`, {
         withCredentials: true,
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
-  
-      console.log("Response Data:", response.data);
+
+      console.log('Response Data:', response.data);
       setCases(response.data);
     } catch (error) {
-      console.error("Error fetching cases:", error.response?.data || error);
-      
+      console.error('Error fetching cases:', error.response?.data || error);
+
       // Handle authentication errors
       if (error.response?.status === 401 || error.response?.status === 403) {
-        console.error("Authentication failed. Please login again.");
-        localStorage.removeItem("token");
+        console.error('Authentication failed. Please login again.');
+        localStorage.removeItem('token');
         // Redirect to login page
-        window.location.href = "/login";
+        window.location.href = '/login';
       }
-      
+
       setCases([]);
     } finally {
       setLoading(false);
@@ -66,33 +67,42 @@ function MyCases() {
   };
 
   const handleClick = () => {
-    setShowForm(!showForm)
-    setEditingCase(null)
-  }
+    setShowForm(!showForm);
+    setEditingCase(null);
+  };
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!token) {
-      alert("Please login again.");
+      alert('Please login again.');
       return;
     }
 
-    const formData = new FormData(e.target)
+    const formData = new FormData(e.target);
     const newCase = {
-      case_ref_no: Number(formData.get("case_ref_no")),
-      caseTitle: formData.get("caseTitle"),
-      clientName: formData.get("clientName"),
-      status: formData.get("status"),
-      nextHearing: formData.get("hearingDate") ? new Date(formData.get("hearingDate")).toISOString() : null,
-      fees: Number(formData.get("totalFees")),
-      pending_fees: Number(formData.get("totalFees")) - Number(formData.get("amountPaid") || 0)
-    }
+      case_ref_no: Number(formData.get('case_ref_no')),
+      caseTitle: formData.get('caseTitle'),
+      clientName: formData.get('clientName'),
+      status: formData.get('status'),
+      nextHearing: formData.get('hearingDate')
+        ? new Date(formData.get('hearingDate')).toISOString()
+        : null,
+      fees: Number(formData.get('totalFees')),
+      pending_fees:
+        Number(formData.get('totalFees')) -
+        Number(formData.get('amountPaid') || 0),
+    };
 
     // Basic Form Validation
-    if (!newCase.case_ref_no || !newCase.caseTitle || !newCase.clientName || !newCase.status) {
-      alert("Please fill all the required fields.")
-      return
+    if (
+      !newCase.case_ref_no ||
+      !newCase.caseTitle ||
+      !newCase.clientName ||
+      !newCase.status
+    ) {
+      alert('Please fill all the required fields.');
+      return;
     }
 
     setLoading(true);
@@ -100,85 +110,104 @@ function MyCases() {
       const config = {
         withCredentials: true,
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       };
 
       if (editingCase) {
         // Update Case (PUT request)
-        await axios.put(`http://localhost:3000/updatecase/${editingCase.case_ref_no}`, newCase, config);
-        alert("Case updated successfully!");
+        await axios.put(
+          `${API_URL}/cases/updatecase/${editingCase.case_ref_no}`,
+          newCase,
+          config
+        );
+        alert('Case updated successfully!');
       } else {
         // Add New Case (POST request)
-        await axios.post("http://localhost:3000/createcase", newCase, config);
-        alert("Case created successfully!");
+        await axios.post(`${API_URL}/cases/createcase`, newCase, config);
+        alert('Case created successfully!');
       }
 
       // Reset the form and fetch updated data
-      e.target.reset()
-      setEditingCase(null)
-      setShowForm(false)
-      fetchCases()
+      e.target.reset();
+      setEditingCase(null);
+      setShowForm(false);
+      fetchCases();
     } catch (error) {
-      console.error("Error processing case:", error);
-      
+      console.error('Error processing case:', error);
+
       if (error.response?.status === 401 || error.response?.status === 403) {
-        alert("Authentication failed. Please login again.");
-        localStorage.removeItem("token");
-        window.location.href = "/login";
+        alert('Authentication failed. Please login again.');
+        localStorage.removeItem('token');
+        window.location.href = '/login';
       } else {
-        alert(`Error ${editingCase ? 'updating' : 'creating'} case: ${error.response?.data?.message || 'Please try again.'}`);
+        alert(
+          `Error ${editingCase ? 'updating' : 'creating'} case: ${
+            error.response?.data?.message || 'Please try again.'
+          }`
+        );
       }
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleDelete = async (case_ref_no) => {
-    if (!window.confirm("Are you sure you want to delete this case?")) return
+    if (!window.confirm('Are you sure you want to delete this case?')) return;
 
     if (!token) {
-      alert("Please login again.");
+      alert('Please login again.');
       return;
     }
 
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:3000/deletecase/${case_ref_no}`, {
+      await axios.delete(`${API_URL}/deletecase/${case_ref_no}`, {
         withCredentials: true,
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
-      alert("Case deleted successfully!");
+      alert('Case deleted successfully!');
       fetchCases();
     } catch (error) {
-      console.error("Error deleting case:", error);
-      
+      console.error('Error deleting case:', error);
+
       if (error.response?.status === 401 || error.response?.status === 403) {
-        alert("Authentication failed. Please login again.");
-        localStorage.removeItem("token");
-        window.location.href = "/login";
+        alert('Authentication failed. Please login again.');
+        localStorage.removeItem('token');
+        window.location.href = '/login';
       } else {
-        alert(`Failed to delete case: ${error.response?.data?.message || 'Please try again.'}`);
+        alert(
+          `Failed to delete case: ${
+            error.response?.data?.message || 'Please try again.'
+          }`
+        );
       }
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleEdit = (caseItem) => {
-    setEditingCase(caseItem)
-    setShowForm(true)
-  }
+    setEditingCase(caseItem);
+    setShowForm(true);
+  };
 
   // Show loading state
   if (loading) {
     return (
       <div className="case-management-container">
         <SideBar />
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '50vh',
+          }}
+        >
           <p>Loading...</p>
         </div>
       </div>
@@ -188,7 +217,11 @@ function MyCases() {
   return (
     <div className="case-management-container">
       <SideBar />
-      <button onClick={handleClick} className="add-case-button" disabled={loading}>
+      <button
+        onClick={handleClick}
+        className="add-case-button"
+        disabled={loading}
+      >
         <svg
           className="plus-icon"
           viewBox="0 0 24 24"
@@ -220,10 +253,20 @@ function MyCases() {
               />
 
               <label>Case Title:</label>
-              <input type="text" name="caseTitle" required defaultValue={editingCase?.caseTitle} />
+              <input
+                type="text"
+                name="caseTitle"
+                required
+                defaultValue={editingCase?.caseTitle}
+              />
 
               <label>Client name:</label>
-              <input type="text" name="clientName" required defaultValue={editingCase?.clientName} />
+              <input
+                type="text"
+                name="clientName"
+                required
+                defaultValue={editingCase?.clientName}
+              />
 
               <label>Status:</label>
               <select name="status" required defaultValue={editingCase?.status}>
@@ -240,25 +283,38 @@ function MyCases() {
                 name="hearingDate"
                 required
                 defaultValue={
-                  editingCase?.nextHearing ? new Date(editingCase.nextHearing).toISOString().split("T")[0] : ""
+                  editingCase?.nextHearing
+                    ? new Date(editingCase.nextHearing)
+                        .toISOString()
+                        .split('T')[0]
+                    : ''
                 }
               />
 
               <label>Total fees:</label>
-              <input type="number" name="totalFees" required defaultValue={editingCase?.fees} />
+              <input
+                type="number"
+                name="totalFees"
+                required
+                defaultValue={editingCase?.fees}
+              />
 
               <label>Amount Paid:</label>
-              <input type="number" name="amountPaid" defaultValue={editingCase?.amount_paid || 0} />
+              <input
+                type="number"
+                name="amountPaid"
+                defaultValue={editingCase?.amount_paid || 0}
+              />
 
               <button className="submit-case" type="submit" disabled={loading}>
-                {loading ? "Processing..." : (editingCase ? "Update" : "Submit")}
+                {loading ? 'Processing...' : editingCase ? 'Update' : 'Submit'}
               </button>
             </form>
           </div>
         </>
       )}
 
-      <div className={`table-container ${showForm ? "hidden" : ""}`}>
+      <div className={`table-container ${showForm ? 'hidden' : ''}`}>
         <table>
           <thead>
             <tr>
@@ -280,23 +336,37 @@ function MyCases() {
                   <td>{caseItem.caseTitle}</td>
                   <td>{caseItem.clientName}</td>
                   <td>
-                    <span className={`status-badge status-${caseItem.status?.toLowerCase()}`}>
+                    <span
+                      className={`status-badge status-${caseItem.status?.toLowerCase()}`}
+                    >
                       {caseItem.status}
                     </span>
                   </td>
-                  <td>{caseItem.nextHearing ? new Date(caseItem.nextHearing).toLocaleDateString("en-GB") : "N/A"}</td>
-                  <td>₹{caseItem.fees?.toLocaleString() || 0}</td>
-                  <td>₹{(caseItem.pending_fees || (caseItem.fees - (caseItem.amount_paid || 0)))?.toLocaleString() || 0}</td>
                   <td>
-                    <button 
-                      className="edit-btn" 
+                    {caseItem.nextHearing
+                      ? new Date(caseItem.nextHearing).toLocaleDateString(
+                          'en-GB'
+                        )
+                      : 'N/A'}
+                  </td>
+                  <td>₹{caseItem.fees?.toLocaleString() || 0}</td>
+                  <td>
+                    ₹
+                    {(
+                      caseItem.pending_fees ||
+                      caseItem.fees - (caseItem.amount_paid || 0)
+                    )?.toLocaleString() || 0}
+                  </td>
+                  <td>
+                    <button
+                      className="edit-btn"
                       onClick={() => handleEdit(caseItem)}
                       disabled={loading}
                     >
                       Update
                     </button>
-                    <button 
-                      className="delete-btn" 
+                    <button
+                      className="delete-btn"
                       onClick={() => handleDelete(caseItem.case_ref_no)}
                       disabled={loading}
                     >
@@ -307,8 +377,11 @@ function MyCases() {
               ))
             ) : (
               <tr>
-                <td colSpan="8" style={{ textAlign: 'center', padding: '20px' }}>
-                  {loading ? "Loading cases..." : "No cases available"}
+                <td
+                  colSpan="8"
+                  style={{ textAlign: 'center', padding: '20px' }}
+                >
+                  {loading ? 'Loading cases...' : 'No cases available'}
                 </td>
               </tr>
             )}
@@ -316,7 +389,7 @@ function MyCases() {
         </table>
       </div>
     </div>
-  )
+  );
 }
 
-export default MyCases
+export default MyCases;

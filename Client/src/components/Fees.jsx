@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./sideBar.css";
 import "./Fees.css";
-
+import { API_URL } from "../config/EnvConfig.js"; 
 function Fees() {
   const [showForm, setShowForm] = useState(false);
   const [fees, setFees] = useState([]);
@@ -16,7 +16,7 @@ function Fees() {
 
   const fetchFees = async () => {
     try {
-      const response = await axios.get("https://lawconnect-wxr0.onrender.com/getfees",{withCredentials: true});
+      const response = await axios.get(`${API_URL}/getfees`,{withCredentials: true});
       setFees(response.data);
     } catch (error) {
       console.error("Error fetching fees:", error);
@@ -55,9 +55,9 @@ function Fees() {
 
     try {
       if (editingFee) {
-        await axios.put(`https://lawconnect-wxr0.onrender.com/updatefee/${editingFee._id}`, feeData);
+        await axios.put(`${API_URL}/updatefee/${editingFee._id}`, feeData);
       } else {
-        await axios.post("https://lawconnect-wxr0.onrender.com/createfee", feeData,{withCredentials: true});
+        await axios.post(`${API_URL}/createfee`, feeData,{withCredentials: true});
       }
       setShowForm(false);
       fetchFees();
@@ -70,7 +70,7 @@ function Fees() {
   const handleDelete = async (fee) => {
     if (!window.confirm("Are you sure you want to delete this fee record?")) return;
     try {
-      await axios.delete(`https://lawconnect-wxr0.onrender.com/deletefee/${fee._id}`);
+      await axios.delete(`${API_URL}/deletefee/${fee._id}`);
       fetchFees();
     } catch (error) {
       console.error("Error deleting fee record:", error);

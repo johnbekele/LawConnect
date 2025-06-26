@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../config/EnvConfig.js"; // Adjust the import path as necessary
 
 function PendingTasks() {
   const [pendingCases, setPendingCases] = useState([]);
@@ -8,7 +9,7 @@ function PendingTasks() {
   useEffect(() => {
     const fetchPendingCases = async () => {
       try {
-        const response = await axios.get("https://lawconnect-wxr0.onrender.com/pendingcases", { withCredentials: true });
+        const response = await axios.get(`${API_URL}/pendingcases`, { withCredentials: true });
         setPendingCases(response.data);
       } catch (error) {
         console.error("Error fetching pending cases:", error);

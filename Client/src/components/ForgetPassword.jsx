@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./ForgetPassword.css";
+import { API_URL } from "../config/EnvConfig.js"; // Adjust the import path as necessary
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const ForgetPassword = () => {
     setLoading(true);
   
     try {
-      const response = await axios.post("https://lawconnect-wxr0.onrender.com/existing", { email, secretString });
+      const response = await axios.post(`${API_URL}/existing`, { email, secretString });
   
       console.log("API Response:", response.data); // Debugging response
       setMessage(response.data.message);
