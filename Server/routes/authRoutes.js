@@ -8,7 +8,7 @@ import {
   verifyExisting,
   verifyToken,
   resetPassword
-} from '../controllers/authController.js'; // Note the .js extension and named imports
+} from '../controllers/authController.js'; 
 
 const router = express.Router();
 

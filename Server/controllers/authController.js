@@ -208,9 +208,9 @@ export const verifyToken = (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { email, newPassword } = req.body;
+    const { email, secretString } = req.body;
 
-    if (!email || !newPassword) {
+    if (!email || !secretString) {
       return res.status(400).json({ message: "Email and new password are required." });
     }
 
@@ -220,7 +220,7 @@ export const resetPassword = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(newPassword, salt);
+    user.password = await bcrypt.hash(secretString, salt);
     await user.save();
 
     res.status(200).json({ message: "Password reset successfully" });
