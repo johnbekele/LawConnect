@@ -24,10 +24,10 @@ app.use(
   cors({
     origin: function (origin, callback) {
       const allowedOrigins = [
-        "https://lawconnect-wxr0.onrender.com",
+        "https://lawconnect-79kq.onrender.com",
        "http://localhost:3000",
         "http://localhost:5173",
-        "https://law-connect-lilac.vercel.app"
+        "https://law-connect-two.vercel.app"
       ];
 
       if (!origin || allowedOrigins.includes(origin)) {
