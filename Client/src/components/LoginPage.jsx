@@ -231,7 +231,7 @@ function LoginPage() {
                 </div>
                 <input
                   id="password"
-                  type="password"
+                  type="pasword"
                   required
                   placeholder="Enter your password"
                   value={password}

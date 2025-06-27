@@ -25,19 +25,29 @@ app.use(
     origin: function (origin, callback) {
       const allowedOrigins = [
         "https://lawconnect-79kq.onrender.com",
-       "http://localhost:3000",
+        "http://localhost:3000",
         "http://localhost:5173",
         "https://law-connect-two.vercel.app"
       ];
 
+      // Allow requests with no origin (mobile apps, curl, etc.)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log('❌ CORS blocked origin:', origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: [
+      "Content-Type", 
+      "Authorization", 
+      "Cookie",
+      "Set-Cookie",
+      "Access-Control-Allow-Credentials"
+    ],
+    exposedHeaders: ["Set-Cookie"]
   })
 );
 
