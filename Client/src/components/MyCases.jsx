@@ -45,7 +45,7 @@ function MyCases() {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'INR',
+      currency: 'PLN',
     }).format(amount);
   };
 
