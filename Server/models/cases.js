@@ -25,7 +25,7 @@ const casesSchema = mongoose.Schema({
   posts: [
     { type: mongoose.Schema.Types.ObjectId, ref: "post" }
   ]
-});
+},{timestamps: true});
 
 // Export the Mongoose model as a default export
 export default mongoose.model('cases', casesSchema);

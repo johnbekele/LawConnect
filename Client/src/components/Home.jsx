@@ -1,9 +1,56 @@
+import React, { useState, useEffect } from 'react';
 import SideBar from './sideBar';
 import CalendarComponent from './Calender';
 import PendingTasks from './PendingTasks';
 import Headlines from './Headlines';
+import axios from 'axios';
+import { API_URL } from '../config/EnvConfig.js';
 
 function Home() {
+  const [caseStats, setCaseStats] = useState({
+    casesHandled: 0,
+    casesPending: 0,
+    caseWon: 0,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const stats = await fetchCaseStatistics();
+      if (stats) {
+        setCaseStats(stats);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const fetchCaseStatistics = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/cases/getcases`, {
+        withCredentials: true,
+      });
+      console.log('Fetched Cases:', response.data);
+      const cases = response.data;
+      const casesHandled = cases.length;
+      const casesPending = cases.filter(
+        (c) => c.status.toLowerCase() === 'pending'
+      ).length;
+      const caseWon = cases.filter(
+        (c) => c.status.toLowerCase() === 'won'
+      ).length;
+      return {
+        casesHandled,
+        casesPending,
+        caseWon,
+      };
+    } catch (error) {
+      console.error('Error fetching case statistics:', error);
+    }
+  };
+
+  const activeCases = caseStats.casesHandled;
+  const pendingCases = caseStats.casesPending;
+  const WonCase = caseStats.caseWon;
+
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Sidebar - Fixed width */}
@@ -14,7 +61,11 @@ function Home() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Header Bar */}
-        <HeaderSection />
+        <HeaderSection
+          activeCases={activeCases}
+          WonCase={WonCase}
+          pendingCases={pendingCases}
+        />
 
         {/* Main Content Grid - Fixed height containers */}
         <div className="flex-1 p-8 space-y-8 overflow-hidden">
@@ -51,7 +102,7 @@ function Home() {
 }
 
 // Header Section Component
-const HeaderSection = () => (
+const HeaderSection = ({ activeCases, pendingCases, WonCase }) => (
   <div className="flex-shrink-0 bg-white shadow-sm border-b border-gray-200 px-8 py-6">
     <div className="flex items-center justify-between">
       <div>
@@ -62,7 +113,11 @@ const HeaderSection = () => (
       </div>
       <div className="flex items-center space-x-6">
         {/* Quick Stats */}
-        <QuickStats />
+        <QuickStats
+          activeCases={activeCases}
+          pendingCases={pendingCases}
+          WonCase={WonCase}
+        />
 
         {/* Date and Time */}
         <DateTimeDisplay />
@@ -72,11 +127,11 @@ const HeaderSection = () => (
 );
 
 // Quick Stats Component
-const QuickStats = () => (
+const QuickStats = ({ activeCases, WonCase, pendingCases }) => (
   <div className="flex items-center space-x-4">
-    <StatItem value="12" label="Active Cases" color="blue" />
-    <StatItem value="5" label="This Week" color="green" />
-    <StatItem value="3" label="Pending" color="purple" />
+    <StatItem value={activeCases} label="Active Cases" color="blue" />
+    <StatItem value={WonCase} label="Won" color="green" />
+    <StatItem value={pendingCases} label="Pending" color="purple" />
   </div>
 );
 

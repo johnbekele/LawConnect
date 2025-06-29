@@ -636,7 +636,7 @@ function MyCases() {
                       <option value="Pending">Pending</option>
                       <option value="Active">Active</option>
                       <option value="Closed">Closed</option>
-                      <option value="Won">Won</option>
+                      <option value="won">Won</option>
                     </select>
                   </div>
 
