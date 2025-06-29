@@ -132,6 +132,8 @@
 ## 📸 Screenshots
 
 ![image](https://github.com/user-attachments/assets/a2fbb72c-0435-473a-ae43-19a70e25905f)
+![image](https://github.com/user-attachments/assets/9013ea2f-3492-4810-9d92-06b903bb0d9b)
+
 
 ![image](https://github.com/user-attachments/assets/c430f6ad-dba7-4385-a77f-3576d8d11082)
 
