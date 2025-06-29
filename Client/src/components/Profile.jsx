@@ -40,7 +40,7 @@ function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/profile`, {
+      const response = await axios.get(`${API_URL}/users/profile`, {
         // Corrected string interpolation
         withCredentials: true,
       });
@@ -81,30 +81,36 @@ function Profile() {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`${API_URL}/users/updateProfile`, advocate, {
-        // Corrected string interpolation
-        withCredentials: true,
-      });
-      showCustomMessage('Profile updated successfully!', true); // Use custom message
+      const formData = new FormData();
+      formData.append('name', advocate.name);
+      formData.append('age', advocate.age);
+      formData.append('contact', advocate.contact);
 
-      await fetchProfile(); // Await fresh data
-      setEditMode(false); // Switch out of edit mode AFTER reloading
+      // Only append if profilePic is a File object
+      if (advocate.profilePic instanceof File) {
+        formData.append('profilePic', advocate.profilePic);
+      }
+
+      await axios.put(`${API_URL}/users/updateProfile`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      showCustomMessage('Profile updated successfully!', true);
+      await fetchProfile();
+      setEditMode(false);
     } catch (error) {
       console.error('Error updating profile:', error);
-      showCustomMessage('Failed to update profile.', false); // Show error message
+      showCustomMessage('Failed to update profile.', false);
     }
   };
 
   const handleProfilePicUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // It's generally better to upload the image to a cloud storage (e.g., Cloudinary, S3)
-      // and save the URL, rather than storing base64 in the database due to size limits.
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAdvocate((prev) => ({ ...prev, profilePic: reader.result }));
-      };
-      reader.readAsDataURL(file);
+      setAdvocate((prev) => ({ ...prev, profilePic: file }));
     }
   };
 
@@ -199,8 +205,9 @@ function Profile() {
               <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-black mb-4">
                 <img
                   src={
-                    advocate.profilePic ||
-                    'https://placehold.co/128x128/e0e0e0/333333?text=Avatar'
+                    advocate.profilePic
+                      ? `${API_URL}${advocate.profilePic}`
+                      : 'https://placehold.co/128x128/e0e0e0/333333?text=Avatar'
                   } // Placeholder
                   alt="Profile"
                   className="w-full h-full object-cover"

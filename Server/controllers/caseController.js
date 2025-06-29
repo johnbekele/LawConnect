@@ -64,7 +64,14 @@ export const createCase = async (req, res) => {
 export const updateCase = async (req, res) => {
   try {
     const { case_ref_no } = req.params;
+    const email = req.user.email;
+
+
+
     const { caseTitle, clientName, status, nextHearing, fees, pending_fees } = req.body;
+   const user = await userModel.findOne({ email });
+
+
 
     const updatedCase = await casesModel.findOneAndUpdate(
       { case_ref_no },
@@ -78,10 +85,18 @@ export const updateCase = async (req, res) => {
       },
       { new: true }
     );
-
+   
     if (!updatedCase) {
       return res.status(404).json({ success: false, message: "Case not found" });
     }
+
+    if (status === 'Won') {
+      user.casesWon++;
+    } else if (status === 'Lost') {
+      user.casesLost++;
+    }
+
+    await user.save();
 
     res.status(200).json({
       success: true,

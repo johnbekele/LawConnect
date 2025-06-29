@@ -27,32 +27,37 @@ export const getProfile = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
+  const { name, age, contact } = req.body;
+  const profilePic = req.file ? `/uploads/profilePics/${req.file.filename}` : undefined;
+
   try {
-    if (!req.user || !req.user.email) {
-      return res.status(401).json({ error: "Unauthorized: No user found in request" });
-    }
+    const updateData = {
+      name,
+      age,
+      contact,
+    };
 
-    const { name, age, contact, profilePic } = req.body;
+    if (profilePic) updateData.profilePic = profilePic;
 
-    const updatedUser = await userModel.findOneAndUpdate(
-      { email: req.user.email },
-      { $set: { name, age, contact, profilePic } },
-      { new: true } // Return the updated document
+    const updatedUser = await userModel.findByIdAndUpdate(
+      req.user.id,
+      updateData,
+      { new: true, runValidators: true }
     );
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    if (!updatedUser) return res.status(404).json({ error: "User not found" });
 
-    res.json({
-      message: "Profile updated successfully",
-      user: updatedUser
-    });
+    console.log("✅ Profile updated successfully:", updatedUser);
+    res.status(200).json(updatedUser);
   } catch (error) {
-    console.error("Error updating profile:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("❌ Error updating profile:", error);
+    res.status(500).json({ error: error.message });
   }
 };
+
+
+
+
 
 export const deleteUser = async (req, res) => {
   try {
