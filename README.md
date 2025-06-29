@@ -1,7 +1,3 @@
-Here’s a polished **README.md** for **LawConnect**, based on the PDF you provided:
-
----
-
 # ⚖️ LawConnect
 
 **LawConnect** is a full-stack web application designed to modernize how legal professionals and law firms manage their daily operations. From client communication and scheduling to case tracking and fee management, LawConnect unifies all key legal workflows into one intuitive system.
