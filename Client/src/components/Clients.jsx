@@ -12,7 +12,7 @@ function Clients() {
 
   useEffect(() => {
     fetchClients();
-  }, [clients]);
+  }, []);
 
   const fetchClients = async () => {
     setIsLoading(true);

@@ -1,8 +1,39 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { API_URL } from '../config/EnvConfig.js';
 
 function SideBar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [user, setUser] = useState({ email: '', profilePic: '' });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchProfile();
+    };
+    fetchData();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/users/profile`, {
+        // Corrected string interpolation
+        withCredentials: true,
+      });
+
+      console.log('Profile Data from Backend:', response.data);
+      setUser({
+        email: response.data.email,
+        profilePic: response.data.profilePic,
+      });
+    } catch (error) {
+      console.error(
+        'Error fetching profile:',
+        error.response?.data || error.message
+      );
+    }
+  };
 
   // Helper function to check if current route is active
   const isActive = (path) => location.pathname === path;
@@ -206,27 +237,20 @@ function SideBar() {
         <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 mb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
+              <img
+                src={
+                  user.profilePic
+                    ? `${API_URL}${user.profilePic}`
+                    : 'https://placehold.co/128x128/e0e0e0/333333?text=Avatar'
+                }
+                alt=""
+              />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-900 truncate">
                 Legal Professional
               </p>
-              <p className="text-xs text-gray-500 truncate">
-                advocate@lawconnect.com
-              </p>
+              <p className="text-xs text-gray-500 truncate">{user.email}</p>
             </div>
           </div>
         </div>
@@ -257,7 +281,7 @@ function SideBar() {
 
       {/* Footer */}
       <div className="px-4 py-3 border-t border-gray-100">
-        <p className="text-xs text-gray-400 text-center">© 2024 LawConnect</p>
+        <p className="text-xs text-gray-400 text-center">© 2025 LawConnect</p>
       </div>
     </div>
   );
