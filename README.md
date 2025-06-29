@@ -1,63 +1,164 @@
-
-⚖️ **LawConnect – Smart Legal Management Platform**
-LawConnect is a secure and modern web application designed to help advocates and law firms streamline their daily operations. Built with the MERN stack, it centralizes client data, case details, court hearings, fee tracking, and legal documents — all in one intuitive platform.
+Here’s a polished **README.md** for **LawConnect**, based on the PDF you provided:
 
 ---
 
-🚀 **Features**
-🏠 **Dashboard** – Real-time legal news, case summaries, and upcoming hearings
-👤 **Client Management** – Add and track detailed client profiles with case histories
-📁 **Case Handling** – Organize cases with descriptions, milestones, and client associations
-🗓 **Hearing Scheduler** – Track court dates using a calendar view with reminders
-💰 **Fee Logs** – Manage total and pending payments
-📊 **Profile Section** – View active cases, analytics, and personal insights
+# ⚖️ LawConnect
+
+**LawConnect** is a full-stack web application designed to modernize how legal professionals and law firms manage their daily operations. From client communication and scheduling to case tracking and fee management, LawConnect unifies all key legal workflows into one intuitive system.
+
+## 🌐 Live Demo & Repository
+
+* **Live Demo:** [LawConnect](https://law-connect-two.vercel.app)
+* **GitHub Repository:** [GitHub](https://github.com/johnbekele/LawConnect.git)
+
+> **Test Login:**
+>
+> * Email: `test@gmail.com`
+> * Password: `668911`
+>   *Note: Backend is hosted on Render for cost efficiency — it may be slow for testing but runs locally without interruption.*
 
 ---
 
-🛠 **Tech Stack**
+## 🔐 Authentication & Security
 
-* **Frontend**: React.js
-* **Backend**: Node.js, Express.js
-* **Database**: MongoDB
-* **Authentication**: JWT, Role-based access control
+* JWT-based authentication with **Passport.js**
+* OTP login via **Twilio** & **Google NodeMailer**
+* Role-based access control (**Client**, **Lawyer**, **Admin**)
+* Protected routes on both frontend & backend
+* Secure file uploads with role-based access
 
 ---
 
-📦 **Installation**
+## 🧑‍💼 User Roles & Features
 
-1. Clone the repository:
+### 👥 Client
 
-   ```bash
-   git clone https://github.com/yourusername/lawconnect.git
-   ```
+* Book appointments 📅
+* Upload & view documents 📂
+* Chat with lawyers 💬
+* Track case status 📝
 
-2. Navigate to the frontend and backend directories and install dependencies:
+### 👨‍⚖️ Lawyer
 
-   ```bash
-   cd LawConnectReact
-   npm install
+* Manage appointments 📆
+* Upload case notes & fee logs 🗂
+* Chat with clients 🗨️
+* Track milestones 📋
 
-   cd ../autho
-   npm install
-   ```
+### 🛡️ Admin
 
-3. Create a `.env` file in the backend with necessary environment variables (e.g., DB URI, JWT secret)
+* Manage all users 👥
+* View platform analytics 📊
+* Oversee cases and invoices 📑
 
-4. Run the development servers:
+---
 
-   ```bash
-   # Backend
-   cd autho
-   node app.js
+## ⚙️ Tech Stack
 
-   # Frontend
-   cd ../LawConnectReact
-   npm run dev
-   ```
+| Layer        | Technology                         |
+| ------------ | ---------------------------------- |
+| 🎨 Frontend  | React.js, Next.js                  |
+| ⚙️ Backend   | Node.js, Express.js                |
+| 🗄️ Database | MongoDB                            |
+| 🔐 Auth      | JWT, Passport.js                   |
+| 💬 Chat      | Socket.io                          |
+| ☁️ Hosting   | Vercel (Frontend), AWS EC2/Railway |
 
-📌 **Note**: Ensure MongoDB is running locally or use a cloud-based service like MongoDB Atlas.
+---
 
-👉 **Live Demo**
+## 🧩 Key Features
+
+* 🏠 Dashboard with real-time legal news & upcoming hearings
+* 👤 Detailed client management
+* 📁 Comprehensive case handling & milestone tracking
+* 🗓️ Calendar-based hearing scheduler
+* 💳 Fee logs for total & pending payments
+* 📊 Analytics & activity profiles
+* 📂 Secure document sharing
+* 💬 Real-time chat with Socket.io
+* 🔔 Notifications for appointments & updates
+* 🛠️ Admin panel for user & content management
+
+---
+
+## 📑 API Routes
+
+### 🔐 Auth Routes (`/api/auth`)
+
+* `POST /register` — Register user with OTP
+* `POST /login` — Login with credentials
+* `POST /logout` — Logout session
+* `POST /advocate` — Send OTP via Twilio
+* `POST /verifyotp` — Verify OTP
+* `POST /existing` — Check if user exists
+* `GET /verify-token` — Verify session token
+* `POST /reset-password` — Reset password
+
+### 👤 User Routes (`/api/users`)
+
+* `GET /profile` — Fetch user profile
+* `PUT /updateProfile` — Update profile (with image)
+* `DELETE /deleteadv/:email` — Delete user
+* `GET /toknow` — Get all users (debug)
+
+### 📁 Case Routes (`/api/cases`)
+
+* `GET /getcases` — Get all cases
+* `POST /createcase` — Create new case
+* `PUT /updatecase/:case_ref_no` — Update case
+* `DELETE /deletecase/:case_ref_no` — Delete case
+* `GET /casesinfo` — Detailed case info
+* `GET /pendingcases` — View pending cases
+
+### 👥 Client Routes (`/api/clients`)
+
+* `GET /clients` — Get all clients
+* `GET /clients/:case_ref_no` — Get client by case
+* `POST /createclient` — Create new client
+
+### 💰 Fee Routes (`/api/fees`)
+
+* `GET /getfees` — Get all fees
+* `POST /createfee` — Create new fee
+* `PUT /updatefee/:id` — Update fee
+* `DELETE /deletefee/:id` — Delete fee
+
+### 📅 Hearing Routes (`/api/hearings`)
+
+* `GET /hearings` — Get all hearings
+
+### 📂 Upload Routes (`/api/upload`)
+
+* `PUT /updateProfile` — Upload profile picture
+
+---
+
+## 📸 Screenshots
+
+![image](https://github.com/user-attachments/assets/a2fbb72c-0435-473a-ae43-19a70e25905f)
+
+![image](https://github.com/user-attachments/assets/c430f6ad-dba7-4385-a77f-3576d8d11082)
+
+![image](https://github.com/user-attachments/assets/dd4c85b5-6993-4184-8247-b83d0bb5fd8b)
+
+![image](https://github.com/user-attachments/assets/a71d7dd4-c03c-4633-b862-6e87faa58bdb)
+
+![image](https://github.com/user-attachments/assets/3d570d1a-044b-426e-a758-4bad79b259fc)
+
+![image](https://github.com/user-attachments/assets/ba4d652b-d8fb-43b9-90e2-9aa02dcb30c8)
+![image](https://github.com/user-attachments/assets/11b905a7-795b-4b78-a67b-7f57a33a10d4)
+
+![image](https://github.com/user-attachments/assets/27a9078d-5b78-4197-8288-db63a171c567)
+
+![image](https://github.com/user-attachments/assets/f2e26d46-03fe-4d26-ae9b-1c5a69050092)
+
+![image](https://github.com/user-attachments/assets/e799b0d6-bba4-4b8c-97a3-55bb3867da7a)
+
+
+**Developed by:** [John Bekele](https://github.com/johnbekele)
+
+---
+
 
 ---
 ## 🙋‍♂️ Author
