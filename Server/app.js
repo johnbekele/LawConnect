@@ -35,7 +35,7 @@ app.use(
         "https://lawconnect-79kq.onrender.com",
         "http://localhost:3000",
         "http://localhost:5173",
-        "https://law-connect-two.vercel.app"
+        " https://law-connect-git-main-yohans-bekeles-projects.vercel.app"
       ];
 
       // Allow requests with no origin (mobile apps, curl, etc.)
