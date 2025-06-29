@@ -71,7 +71,7 @@ function Profile() {
       setAdvocate((prev) => ({
         ...prev,
         casesHandled: casesHandled || prev.casesHandled,
-        casesWon: casesWon || prev.casesWon,
+        casesWon: casesWon,
       }));
     } catch (error) {
       console.error('Error fetching case statistics:', error);
