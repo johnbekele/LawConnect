@@ -1,2 +1,3 @@
 Commit 1: Implement user login form validation
 Commit 2: Add Redux for state management
+Commit 3: Improve UI responsiveness on dashboard
