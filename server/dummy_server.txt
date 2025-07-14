@@ -1,1 +1,2 @@
 Commit 11: Add JWT authentication middleware
+Commit 12: Implement user registration endpoint
