@@ -1,3 +1,4 @@
 Commit 11: Add JWT authentication middleware
 Commit 12: Implement user registration endpoint
 Commit 13: Fix CORS issue for API routes
+Commit 14: Add MongoDB connection pooling
