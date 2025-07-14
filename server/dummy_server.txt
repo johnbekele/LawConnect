@@ -15,3 +15,4 @@ Commit 14: Add MongoDB connection pooling
 Commit 15: Refactor user model schema
 Commit 16: Implement password reset functionality
 Commit 17: Add logging for API requests
+Commit 18: Optimize query performance for dashboard
