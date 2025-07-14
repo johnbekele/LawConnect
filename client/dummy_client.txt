@@ -16,3 +16,4 @@ Commit 5: Add profile picture upload feature
 Commit 6: Refactor components to use hooks
 Commit 7: Integrate Axios for API requests
 Commit 8: Update dependencies and fix warnings
+Commit 9: Enhance error handling in forms
