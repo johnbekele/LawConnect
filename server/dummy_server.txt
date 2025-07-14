@@ -10,3 +10,4 @@ Commit 19: Fix bug in token verification logic
 Commit 20: Add tests for authentication routes
 Commit 11: Add JWT authentication middleware
 Commit 12: Implement user registration endpoint
+Commit 13: Fix CORS issue for API routes
