@@ -372,10 +372,6 @@ function LandingPage() {
               advocates.
             </p>
           </div>
-
-          <div className="text-base text-white/80">
-            <p>Developed by Maanya Gupta & Devyani Sharma</p>
-          </div>
         </div>
         <div className="text-sm text-white/60 text-center pt-8 mt-10 border-t border-white/20">
           © {new Date().getFullYear()} LawConnect. All rights reserved.
