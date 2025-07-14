@@ -1,0 +1,114 @@
+.headlines {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align content at the top */
+    height: 300px;
+    /* width: 80%; */
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); 
+    padding: 20px;
+    background-color: black;
+    color: white;
+    overflow-y: auto; /* Enables scrolling if content overflows */
+    text-align: center;
+}
+
+/* Hide scrollbar for better design */
+/* .headlines::-webkit-scrollbar {
+    width: 5px;
+}
+
+.headlines::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+} */
+
+/* Headlines title */
+.headlines h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Headlines list */
+.headlines ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+/* Individual news items */
+.headlines li {
+    margin: 10px 0;
+}
+
+/* Links styling */
+.headlines a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    padding: 8px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    text-align: left;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /*Adds '...' if text is too long */
+    width: 100%;
+}
+
+/* On hover, make the text float while element remains fixed */
+.headlines li:hover a {
+    animation: floatText 5s linear infinite alternate;
+    white-space: nowrap;
+    overflow: visible;
+    position: relative;
+    text-decoration: underline;
+    /* background-color: rgba(255, 255, 255, 0.2); */
+}
+
+@keyframes floatText {
+    from {
+        left: 0%;
+    }
+    to {
+        left: -100%;
+    }
+}
+@media screen and (max-width: 950px) {
+    .headlines {
+        width: 100%; /* Reduce width */
+        height: auto;
+        padding: 15px;
+    }
+
+    .headlines h2 {
+        font-size: 18px; /* Reduce title size */
+    }
+
+    .headlines a {
+        font-size: 12px; /* Adjust font size for readability */
+        padding: 6px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .headlines {
+        width: 100%; /* Full width for mobile */
+        height: auto;
+        padding: 10px;
+    }
+
+    .headlines h2 {
+        font-size: 16px;
+    }
+
+    .headlines a {
+        font-size: 10px;
+        padding: 5px;
+    }
+}

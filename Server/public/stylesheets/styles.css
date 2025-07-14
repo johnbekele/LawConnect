@@ -1,0 +1,10 @@
+
+body {
+    background-image: url("/images/IMG_0259.JPG");
+    background-size: cover; /* Adjusts image to cover the entire screen */
+    background-repeat: no-repeat; /* Prevents tiling */
+    background-position: center; /* Centers the image */
+}
+h3{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

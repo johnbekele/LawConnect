@@ -1,0 +1,131 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #e5e5e5; 
+    color: black; 
+}
+
+.sideBar {
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    height: 100vh; 
+    width: 250px; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.logo img{
+    width: 190px;
+    height: 70px;
+    border-radius: 5px;
+    object-fit:cover;
+}
+
+
+.options{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.options button {
+    font-family: 'Times New Roman', Times, serif;
+    border: none;
+    color: white;
+    padding: 15px ; 
+    font-size: large;
+    margin: 10px 0; 
+    background-color: transparent; 
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.options button:hover {
+    background-color: #555; 
+    color: #fff; 
+    border-radius: 5px; 
+}
+
+.logout-button{
+    border: none;
+    margin: 10px;
+    background-color: black;
+    padding: 10px;
+    color: white;
+    font-size:large;
+    font-family: 'Times New Roman', Times, serif;
+    cursor: pointer;
+}
+
+hr {
+    border: none;               
+    height: 2px;               
+    background-color: white;    
+    margin: 10px 0;             
+    width: 80%;                 
+    align-self: center;         
+}
+
+.logout-button:hover{
+    background-color: #555; 
+    color: #fff; 
+    border-radius: 5px; 
+}
+/* Responsive design */
+@media screen and (max-width: 950px) {
+    .sideBar {
+        width: 100%;
+        height: 50px;
+        position: fixed;
+        top: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        padding: 5px;
+        overflow: hidden;
+    }
+    
+    .options {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .options button {
+        padding: 5px;
+        font-size: 14px;
+        flex-grow: 1;
+        text-align: center;
+    }
+    
+    .logout-button {
+        font-size: 14px;
+        padding: 5px;
+        flex-grow: 0;
+        text-align: center;
+        width: auto;
+    }
+    
+    .logo img{
+        width: 50px;
+        height: 30px;
+    }
+    
+    hr {
+        display: none;
+    }
+}
