@@ -15,3 +15,4 @@ Commit 4: Fix bug in registration flow
 Commit 5: Add profile picture upload feature
 Commit 6: Refactor components to use hooks
 Commit 7: Integrate Axios for API requests
+Commit 8: Update dependencies and fix warnings
