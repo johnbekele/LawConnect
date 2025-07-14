@@ -9,3 +9,4 @@ Commit 8: Update dependencies and fix warnings
 Commit 9: Enhance error handling in forms
 Commit 10: Optimize image loading performance
 Commit 1: Implement user login form validation
+Commit 2: Add Redux for state management
