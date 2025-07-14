@@ -7,3 +7,4 @@ Commit 16: Implement password reset functionality
 Commit 17: Add logging for API requests
 Commit 18: Optimize query performance for dashboard
 Commit 19: Fix bug in token verification logic
+Commit 20: Add tests for authentication routes
